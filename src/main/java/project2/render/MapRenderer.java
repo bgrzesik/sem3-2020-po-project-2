@@ -1,7 +1,6 @@
-package project2.map;
+package project2.render;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
@@ -10,25 +9,43 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
+import project2.entity.MapEntity;
+import project2.map.GameMap;
+import project2.map.WallRenderer;
 
-public class MapRenderer {
-    private Map map;
+public class MapRenderer extends AbstractRenderer<MapEntity> {
+    private FrameBuffer frameBuffer = null;
+    private GameMap map;
 
-    public MapRenderer(Map map) {
-        this.map = map;
+    @Override
+    public void render(SpriteBatch batch) {
+        if (this.frameBuffer == null) {
+            createFramebuffer();
+        }
+
+        Texture mapTexture = this.frameBuffer.getColorBufferTexture();
+        batch.draw(mapTexture, -0.5f, -0.5f, this.map.getSizeX(), this.map.getSizeY());
     }
 
 
-    public FrameBuffer render(AssetManager assets) {
-        FrameBuffer frameBuffer = new FrameBuffer(Pixmap.Format.RGBA8888,
-                                                  map.getSizeX() * 128, map.getSizeY() * 128,
-                                                  false);
+    @Override
+    public void setEntity(MapEntity entity) {
+        super.setEntity(entity);
+        this.map = entity.getMap();
+    }
+
+    public void createFramebuffer() {
+        this.frameBuffer = new FrameBuffer(Pixmap.Format.RGBA8888,
+                                      map.getSizeX() * 128, map.getSizeY() * 128,
+                                      false);
 
         SpriteBatch batch = new SpriteBatch();
 
-        TextureRegion[][] atlas = TextureRegion.split(assets.get("assets.png"), 128, 128);
 
-        frameBuffer.bind();
+        TextureRegion[][] atlas = renderingSystem.getAtlas();
+
+        this.frameBuffer.bind();
+
         Gdx.gl.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         Gdx.gl.glViewport(0, 0, map.getSizeX() * 128, map.getSizeY() * 128);
@@ -70,8 +87,6 @@ public class MapRenderer {
         batch.end();
 
         FrameBuffer.unbind();
-
-        return frameBuffer;
     }
 
 }

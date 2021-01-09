@@ -1,24 +1,27 @@
-package project2.map;
+package project2.entity;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import project2.GameContext;
+import project2.map.GameMap;
+import project2.system.PhysicsSystem;
 
-public class MapBody {
+public class MapEntity extends AbstractEntity {
 
     public static final float OFFSET = 0.45f;
+    private GameMap map;
 
-    private final Map map;
-
-    public MapBody(Map map) {
+    public MapEntity(GameMap map) {
         this.map = map;
     }
 
-    public Body createBody(World world) {
+    @Override
+    public Body createBody(PhysicsSystem physicsSystem, Vector2 position) {
         BodyDef bodyDef = new BodyDef();
-        bodyDef.position.set(0, 0);
+        bodyDef.position.set(position);
         bodyDef.type = BodyDef.BodyType.StaticBody;
 
-        Body body = world.createBody(bodyDef);
+        this.body = physicsSystem.getWorld().createBody(bodyDef);
         body.setUserData(this);
 
         // RIGHT
@@ -139,5 +142,16 @@ public class MapBody {
         }
 
         return body;
+    }
+
+
+
+    @Override
+    public void accept(EntityVisitor visitor) {
+        visitor.visitMap(this);
+    }
+
+    public GameMap getMap() {
+        return map;
     }
 }
