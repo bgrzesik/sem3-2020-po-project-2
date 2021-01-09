@@ -3,7 +3,6 @@ package project2.system;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -54,10 +53,6 @@ public class RenderingSystem extends EntitySystem implements EntityVisitor {
         int screenWidth = Gdx.graphics.getWidth();
         int screenHeight = Gdx.graphics.getHeight();
 
-        Gdx.gl.glViewport(0, 0, screenWidth, screenHeight);
-        Gdx.gl.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
         this.batch = new SpriteBatch();
 
         float scale = 2.4e-2f;
@@ -67,7 +62,7 @@ public class RenderingSystem extends EntitySystem implements EntityVisitor {
         proj.setToOrtho2D(0, 0, width, height, -0.1f, 1.0f);
 
 
-        Vector2 playerPos = ctx.getSystem(PlayerSystem.class).getPlayerPos();
+        Vector2 playerPos = ctx.getSystem(PlayerMovementSystem.class).getPlayerPos();
         proj.translate(width / 2.0f - playerPos.x, height / 2.0f - playerPos.y, 0.0f);
 
         FrameBuffer.unbind();

@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import project2.GameContext;
 import project2.entity.CherryEntity;
 import project2.entity.EnemyEntity;
+import project2.system.PlayerMovementSystem;
 
 public class CherrySpawner extends AbstractSpawner {
 
@@ -15,7 +16,18 @@ public class CherrySpawner extends AbstractSpawner {
 
     @Override
     public boolean willSpawn(GameContext ctx) {
-        return cherry == null || !cherry.isAlive();
+        if (cherry == null) {
+            return true;
+        }
+        if (cherry.isAlive()) {
+            return false;
+        }
+
+        Vector2 playerPos = ctx.getSystem(PlayerMovementSystem.class).getPlayerPos();
+
+        float dist = playerPos.cpy().sub(x, y).len();
+
+        return dist > 10;
     }
 
     @Override

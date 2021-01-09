@@ -21,7 +21,7 @@ public class CherryEntity extends AbstractEntity {
 
         CircleShape circle = new CircleShape();
         circle.setPosition(Vector2.Zero);
-        circle.setRadius(0.45f);
+        circle.setRadius(0.3f);
 
         FixtureDef fixDef = new FixtureDef();
         fixDef.shape = circle;
