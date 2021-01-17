@@ -10,6 +10,8 @@ import project2.system.PhysicsSystem;
 
 public class EnemyEntity extends AbstractEntity {
 
+    public static final float RADIUS = 0.45f;
+
     @Override
     public Body createBody(PhysicsSystem physicsSystem, Vector2 position) {
         BodyDef bodyDef = new BodyDef();
@@ -21,12 +23,12 @@ public class EnemyEntity extends AbstractEntity {
 
         CircleShape circle = new CircleShape();
         circle.setPosition(Vector2.Zero);
-        circle.setRadius(0.45f);
+        circle.setRadius(RADIUS);
 
         FixtureDef fixDef = new FixtureDef();
         fixDef.shape = circle;
         fixDef.density = 1;
-        fixDef.restitution = 0;
+        fixDef.friction = 0;
 
         this.body.createFixture(fixDef);
         this.body.setUserData(this);

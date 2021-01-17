@@ -1,21 +1,19 @@
 package project2.map;
 
-import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.GridPoint2;
 
 public class WallRenderer {
-    public static final Vector2[] BYTE_ORDER = {
-            new Vector2(0, 1), // N
-            new Vector2(1, 1), // NE
-            new Vector2(1, 0), // E
-            new Vector2(1, -1), // SE
-            new Vector2(0, -1), // S
-            new Vector2(-1, -1), // SW
-            new Vector2(-1, 0), // W
-            new Vector2(-1, 1), // NW
+    public static final GridPoint2[] BYTE_ORDER = {
+            new GridPoint2(0, 1), // N
+            new GridPoint2(1, 1), // NE
+            new GridPoint2(1, 0), // E
+            new GridPoint2(1, -1), // SE
+            new GridPoint2(0, -1), // S
+            new GridPoint2(-1, -1), // SW
+            new GridPoint2(-1, 0), // W
+            new GridPoint2(-1, 1), // NW
     };
 
     private final int neighbors;

@@ -1,25 +1,19 @@
 package project2.spawn;
 
+import com.badlogic.gdx.math.GridPoint2;
 import project2.entity.Entity;
 
 public abstract class AbstractSpawner implements Spawner {
 
-    protected final int x;
-    protected final int y;
+    protected GridPoint2 pos;
 
-    public AbstractSpawner(int x, int y) {
-        this.x = x;
-        this.y = y;
+    public AbstractSpawner(GridPoint2 pos) {
+        this.pos = pos;
     }
 
     @Override
-    public int getCoordX() {
-        return this.x;
-    }
-
-    @Override
-    public int getCoordY() {
-        return this.y;
+    public GridPoint2 getPosition() {
+        return this.pos;
     }
 
 }

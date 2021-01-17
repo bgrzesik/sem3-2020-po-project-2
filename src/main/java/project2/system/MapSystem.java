@@ -23,8 +23,8 @@ public class MapSystem implements GameSystem {
                 return;
             }
 
-            map = new GameMap(assets, mapFile);
-            mapEntity = new MapEntity(map);
+            this.map = new GameMap(assets, mapFile);
+            this.mapEntity = new MapEntity(map);
 
             ctx.addEntity(mapEntity, Vector2.Zero);
         }
@@ -35,7 +35,15 @@ public class MapSystem implements GameSystem {
                 spawner.spawn(ctx);
             }
         }
-
     }
 
+    public GameMap getMap() {
+        return map;
+    }
+
+    public void reset() {
+        for (Spawner spawner : map.getSpawners()) {
+           spawner.reset();
+        }
+    }
 }

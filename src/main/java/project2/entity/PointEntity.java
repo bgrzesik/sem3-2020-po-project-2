@@ -1,12 +1,13 @@
 package project2.entity;
 
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.*;
-import project2.GameContext;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.CircleShape;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
 import project2.system.PhysicsSystem;
 
-public class CherryEntity extends AbstractEntity {
-
+public class PointEntity extends AbstractEntity{
     @Override
     public Body createBody(PhysicsSystem physicsSystem, Vector2 position) {
         BodyDef bodyDef = new BodyDef();
@@ -18,7 +19,7 @@ public class CherryEntity extends AbstractEntity {
 
         CircleShape circle = new CircleShape();
         circle.setPosition(Vector2.Zero);
-        circle.setRadius(0.3f);
+        circle.setRadius(0.08f);
 
         FixtureDef fixDef = new FixtureDef();
         fixDef.shape = circle;
@@ -33,7 +34,6 @@ public class CherryEntity extends AbstractEntity {
 
     @Override
     public void accept(EntityVisitor visitor) {
-        visitor.visitCherry(this);
+        visitor.visitPoint(this);
     }
-
 }

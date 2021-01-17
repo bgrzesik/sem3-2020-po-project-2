@@ -12,7 +12,7 @@ import project2.collision.PlayerCollisionListener;
 import java.util.HashSet;
 import java.util.Set;
 
-public class PlayerCollisionSystem implements GameSystem{
+public class CollisionSystem implements GameSystem{
 
     private final Set<PlayerCollisionListener> listeners = new HashSet<>();
 

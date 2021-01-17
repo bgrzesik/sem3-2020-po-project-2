@@ -37,4 +37,8 @@ public class RemovalSystem implements GameSystem {
         this.listeners.remove(listener);
     }
 
+    @Override
+    public boolean doesGameLogic() {
+        return false;
+    }
 }

@@ -6,5 +6,9 @@ public interface GameSystem {
 
     void tick(GameContext ctx);
 
+    default boolean doesGameLogic() {
+        return true;
+    }
+
 }
 

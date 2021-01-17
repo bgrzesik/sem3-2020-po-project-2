@@ -8,7 +8,8 @@ import project2.system.PhysicsSystem;
 
 public class MapEntity extends AbstractEntity {
 
-    public static final float OFFSET = 0.45f;
+    private static final float OFFSET = 0.45f;
+    private static final float SMALL_OFFSET = (0.5f - OFFSET) * 4f;
     private GameMap map;
 
     public MapEntity(GameMap map) {
@@ -44,9 +45,18 @@ public class MapEntity extends AbstractEntity {
                 }
 
                 EdgeShape polygonShape = new EdgeShape();
-                polygonShape.set(new Vector2(x + OFFSET, startY - OFFSET),
-                                 new Vector2(x + OFFSET, endY - 1.0f + OFFSET));
+                Vector2 start = new Vector2(x + OFFSET, startY - OFFSET);
+                Vector2 end = new Vector2(x + OFFSET, endY - 1.0f + OFFSET);
 
+                if (startY < 1 || map.isWall(x, startY - 1)) {
+                    start.y -= SMALL_OFFSET;
+                }
+
+                if (endY > map.getSizeY() - 1  || map.isWall(x, endY)) {
+                    end.y += SMALL_OFFSET;
+                }
+
+                polygonShape.set(start, end);
                 FixtureDef def = new FixtureDef();
                 def.shape = polygonShape;
                 body.createFixture(def);
@@ -73,8 +83,18 @@ public class MapEntity extends AbstractEntity {
                 }
 
                 EdgeShape polygonShape = new EdgeShape();
-                polygonShape.set(new Vector2(x - OFFSET, startY - OFFSET),
-                                 new Vector2(x - OFFSET, endY - 1.0f + OFFSET));
+                Vector2 start = new Vector2(x - OFFSET, startY - OFFSET);
+                Vector2 end = new Vector2(x - OFFSET, endY - 1.0f + OFFSET);
+
+                if (startY < 1 || map.isWall(x, startY - 1)) {
+                    start.y -= SMALL_OFFSET;
+                }
+
+                if (endY > map.getSizeY() - 1 || map.isWall(x, endY)) {
+                    end.y += SMALL_OFFSET;
+                }
+
+                polygonShape.set(start, end);
 
                 FixtureDef def = new FixtureDef();
                 def.shape = polygonShape;
@@ -84,15 +104,15 @@ public class MapEntity extends AbstractEntity {
 
 
         // UP
-        for (int y = 0; y < map.getSizeX() - 1; y++) {
-            for (int x = 0; x < map.getSizeY(); x++) {
+        for (int y = 0; y < map.getSizeY() - 1; y++) {
+            for (int x = 0; x < map.getSizeX(); x++) {
                 while (x < map.getSizeX() && !map.isWall(x, y)) {
                     x++;
                 }
 
                 int startX = x;
 
-                while (x < map.getSizeY() && map.isWall(x, y) && !map.isWall(x, y + 1)) {
+                while (x < map.getSizeX() && map.isWall(x, y) && !map.isWall(x, y + 1)) {
                     x++;
                 }
 
@@ -103,8 +123,21 @@ public class MapEntity extends AbstractEntity {
                 }
 
                 EdgeShape polygonShape = new EdgeShape();
-                polygonShape.set(new Vector2(startX - OFFSET, y + OFFSET),
-                                 new Vector2(endX - 1.0f + OFFSET, y + OFFSET));
+                Vector2 start = new Vector2(startX - OFFSET, y + OFFSET);
+                Vector2 end = new Vector2(endX - 1.0f + OFFSET, y + OFFSET);
+                polygonShape.set(start, end);
+
+                if (startX < 1 || map.isWall(startX - 1, y)) {
+                    start.x -= SMALL_OFFSET;
+                }
+
+                if (endX > map.getSizeY() - 1 || map.isWall(endX, y)) {
+                    end.x += SMALL_OFFSET;
+                }
+
+                polygonShape.set(start, end);
+
+
 
                 FixtureDef def = new FixtureDef();
                 def.shape = polygonShape;
@@ -113,15 +146,15 @@ public class MapEntity extends AbstractEntity {
         }
 
         // DOWN
-        for (int y = 1; y < map.getSizeX(); y++) {
-            for (int x = 0; x < map.getSizeY(); x++) {
+        for (int y = 1; y < map.getSizeY(); y++) {
+            for (int x = 0; x < map.getSizeX(); x++) {
                 while (x < map.getSizeX() && !map.isWall(x, y)) {
                     x++;
                 }
 
                 int startX = x;
 
-                while (x < map.getSizeY() && map.isWall(x, y) && !map.isWall(x, y - 1)) {
+                while (x < map.getSizeX() && map.isWall(x, y) && !map.isWall(x, y - 1)) {
                     x++;
                 }
 
@@ -132,9 +165,18 @@ public class MapEntity extends AbstractEntity {
                 }
 
                 EdgeShape polygonShape = new EdgeShape();
-                polygonShape.set(new Vector2(startX - OFFSET, y - OFFSET),
-                                 new Vector2(endX - 1.0f + OFFSET, y - OFFSET));
+                Vector2 start = new Vector2(startX - OFFSET, y - OFFSET);
+                Vector2 end = new Vector2(endX - 1.0f + OFFSET, y - OFFSET);
 
+                if (startX < 1 || map.isWall(startX - 1, y)) {
+                    start.x -= SMALL_OFFSET;
+                }
+
+                if (endX > map.getSizeY() - 1 || map.isWall(endX, y)) {
+                    end.x += SMALL_OFFSET;
+                }
+
+                polygonShape.set(start, end);
                 FixtureDef def = new FixtureDef();
                 def.shape = polygonShape;
                 body.createFixture(def);

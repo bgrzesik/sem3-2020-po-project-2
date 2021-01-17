@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import project2.Application;
+import project2.system.UISystem;
 
 public class MainMenuScreen extends ScreenAdapter {
 
@@ -29,7 +30,7 @@ public class MainMenuScreen extends ScreenAdapter {
 
 
         SelectBox<String> selectBox = new SelectBox<String>(skin);
-        selectBox.setItems("map.png", "map2.png");
+        selectBox.setItems("map.png", "map2.png", "map3.png");
         table.add(selectBox).pad(10).row();
 
         Button playMap1 = new TextButton("Play", skin);
@@ -68,8 +69,7 @@ public class MainMenuScreen extends ScreenAdapter {
         Gdx.gl.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        this.stage.act();
-        this.stage.draw();
+        UISystem.drawStage(stage);
     }
 
 }

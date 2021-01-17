@@ -4,24 +4,23 @@ import project2.GameContext;
 import project2.entity.CherryEntity;
 import project2.entity.Entity;
 import project2.entity.PlayerEntity;
-import project2.system.PlayerSystem;
+import project2.entity.PointEntity;
 import project2.system.StatisticsSystem;
 
-public class PlayerCherryCollisionListener implements PlayerCollisionListener {
+public class PlayerPointCollisionListener implements PlayerCollisionListener {
 
     @Override
     public void collidedWith(GameContext ctx, PlayerEntity player, Entity entity) {
-        if (!(entity instanceof CherryEntity)) {
+        if (!(entity instanceof PointEntity)) {
             return;
         }
 
-        CherryEntity cherry = (CherryEntity) entity;
-        cherry.setAlive(false);
+        PointEntity point = (PointEntity) entity;
+        point.setAlive(false);
 
         StatisticsSystem statisticsSystem = ctx.getSystem(StatisticsSystem.class);
-        statisticsSystem.pickedUpCherry();
+        statisticsSystem.pickedUpPoint();
 
-        player.pickUpCherry();
     }
 
 }

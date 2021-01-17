@@ -2,12 +2,19 @@ package project2.entity;
 
 public interface EntityVisitor {
 
-    void visitPlayer(PlayerEntity player);
+    default void visitPlayer(PlayerEntity player) {
+    }
 
-    void visitEnemy(EnemyEntity enemy);
+    default void visitEnemy(EnemyEntity enemy) {
+    }
 
-    void visitCherry(CherryEntity cherry);
+    default void visitCherry(CherryEntity cherry) {
+    }
 
-    void visitMap(MapEntity map);
+    default void visitPoint(PointEntity point) {
+    }
+
+    default void visitMap(MapEntity map) {
+    }
 
 }

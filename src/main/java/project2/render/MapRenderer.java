@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
+import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 import project2.entity.MapEntity;
@@ -65,7 +66,9 @@ public class MapRenderer extends AbstractRenderer<MapEntity> {
                 int neighbors = 0b00000000;
 
                 for (int i = 0; i < WallRenderer.BYTE_ORDER.length; i++) {
-                    Vector2 pos = new Vector2(x, y).add(WallRenderer.BYTE_ORDER[i]);
+                    GridPoint2 pos = new GridPoint2(x, y)
+                            .add(WallRenderer.BYTE_ORDER[i]);
+
                     boolean present;
 
                     if (pos.x < 0 || pos.x >= map.getSizeX()) {

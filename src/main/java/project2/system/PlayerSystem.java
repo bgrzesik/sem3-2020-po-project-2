@@ -4,19 +4,26 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
+import project2.GameContext;
 import project2.entity.*;
 
-public class PlayerMovementSystem extends EntitySystem implements EntityVisitor {
+public class PlayerSystem extends EntitySystem implements EntityVisitor {
 
-    private final Vector2 playerPos = new Vector2();
+    private PlayerEntity player = null;
 
-    public Vector2 getPlayerPos() {
-        return playerPos;
+
+    @Override
+    public void tick(GameContext ctx) {
+        this.player = null;
+        super.tick(ctx);
     }
 
     @Override
     public void visitPlayer(PlayerEntity player) {
         Body body = player.getBody();
+        this.player = player;
+
+        this.player.timeStep(Gdx.graphics.getDeltaTime());
 
         Vector2 speed = new Vector2(0, 0);
 
@@ -41,23 +48,6 @@ public class PlayerMovementSystem extends EntitySystem implements EntityVisitor 
                          .scl(body.getMass());
 
         body.applyLinearImpulse(f, Vector2.Zero, true);
-
-        playerPos.set(player.getPosition());
-    }
-
-    @Override
-    public void visitEnemy(EnemyEntity enemy) {
-
-    }
-
-    @Override
-    public void visitCherry(CherryEntity cherry) {
-
-    }
-
-    @Override
-    public void visitMap(MapEntity map) {
-
     }
 
     @Override
@@ -65,4 +55,18 @@ public class PlayerMovementSystem extends EntitySystem implements EntityVisitor 
         return this;
     }
 
+    public boolean isPlayerAlive() {
+        return this.player != null;
+    }
+
+    public Vector2 getPlayerPos() {
+        if (this.player == null) {
+            return null;
+        }
+        return this.player.getPosition();
+    }
+
+    public PlayerEntity getPlayer() {
+        return this.player;
+    }
 }

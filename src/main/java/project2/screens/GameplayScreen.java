@@ -5,6 +5,8 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import project2.GameContext;
 import project2.collision.PlayerCherryCollisionListener;
+import project2.collision.PlayerEnemyCollisionListener;
+import project2.collision.PlayerPointCollisionListener;
 import project2.listeners.WorldRemoveListener;
 import project2.system.*;
 
@@ -22,10 +24,13 @@ public class GameplayScreen extends ScreenAdapter {
     public void show() {
         ctx = new GameContext(this.mapFile);
 
+        ctx.registerSystem(new StateSystem());
         ctx.registerSystem(new MapSystem());
 
-        ctx.registerSystem(new PlayerMovementSystem());
-        ctx.registerSystem(new PlayerCollisionSystem());
+        ctx.registerSystem(new PlayerSystem());
+        ctx.registerSystem(new CollisionSystem());
+
+        ctx.registerSystem(new EnemySystem());
 
         ctx.registerSystem(new PhysicsSystem());
         ctx.registerSystem(new RemovalSystem());
@@ -39,8 +44,10 @@ public class GameplayScreen extends ScreenAdapter {
         removalSystem.addRemoveListener(new WorldRemoveListener());
 
 
-        PlayerCollisionSystem collisionSystem = ctx.getSystem(PlayerCollisionSystem.class);
+        CollisionSystem collisionSystem = ctx.getSystem(CollisionSystem.class);
         collisionSystem.addCollisionListener(new PlayerCherryCollisionListener());
+        collisionSystem.addCollisionListener(new PlayerPointCollisionListener());
+        collisionSystem.addCollisionListener(new PlayerEnemyCollisionListener());
     }
 
     @Override
@@ -54,8 +61,14 @@ public class GameplayScreen extends ScreenAdapter {
         Gdx.gl.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+
+        StateSystem state = ctx.getSystem(StateSystem.class);
+
+
         for (GameSystem system : ctx.getSystems()) {
-            system.tick(ctx);
+            if (state.getGameState().doLogic() || !system.doesGameLogic()) {
+                system.tick(ctx);
+            }
         }
     }
 }
